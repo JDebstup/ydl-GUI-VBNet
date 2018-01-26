@@ -1,2 +1,7 @@
-# ydl-GUI-VBNet
-A youtube-dl GUI done in VB.net
+# Youtube-DL GUI
+
+A GUI for youtube-dl done in VB.net.
+
+Still a work-in-progress.
+
+Enjoy.
