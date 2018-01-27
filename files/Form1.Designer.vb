@@ -24,38 +24,39 @@ Partial Class GUI
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GUI))
         Me.TextURL = New System.Windows.Forms.TextBox()
-        Me.ButtonDownload = New System.Windows.Forms.Button()
-        Me.TextOutputLog = New System.Windows.Forms.TextBox()
-        Me.ListOptions = New System.Windows.Forms.ComboBox()
-        Me.GroupDownloadChoice = New System.Windows.Forms.GroupBox()
-        Me.RadioQualityAuto = New System.Windows.Forms.RadioButton()
-        Me.RadioQualityBest = New System.Windows.Forms.RadioButton()
-        Me.RadioQualityCustom = New System.Windows.Forms.RadioButton()
-        Me.LabelChoiceAudio = New System.Windows.Forms.Label()
-        Me.LabelChoiceVideo = New System.Windows.Forms.Label()
-        Me.ListFormatAudio = New System.Windows.Forms.ComboBox()
-        Me.ListFormatVideo = New System.Windows.Forms.ComboBox()
-        Me.LabelDownloadType = New System.Windows.Forms.Label()
+        Me.buttonDownload = New System.Windows.Forms.Button()
+        Me.CheckFormatCustom = New System.Windows.Forms.CheckBox()
+        Me.textOutputLog = New System.Windows.Forms.TextBox()
+        Me.listOptions = New System.Windows.Forms.ComboBox()
+        Me.GroupQuality = New System.Windows.Forms.GroupBox()
+        Me.LabelQualityAudio = New System.Windows.Forms.Label()
+        Me.LabelQualityVideo = New System.Windows.Forms.Label()
+        Me.listFormatAudio = New System.Windows.Forms.ComboBox()
+        Me.listFormatVideo = New System.Windows.Forms.ComboBox()
+        Me.LabelTypeDownload = New System.Windows.Forms.Label()
         Me.LabelURL = New System.Windows.Forms.Label()
-        Me.LabelDownloadLocation = New System.Windows.Forms.Label()
-        Me.TextBrowseFolder = New System.Windows.Forms.TextBox()
-        Me.ButtonBrowseFolder = New System.Windows.Forms.Button()
-        Me.ButtonUpdateYDL = New System.Windows.Forms.Button()
-        Me.GroupOutput = New System.Windows.Forms.GroupBox()
-        Me.ButtonSaveLog = New System.Windows.Forms.Button()
-        Me.GroupDownloadLocation = New System.Windows.Forms.GroupBox()
-        Me.ButtonOpenFolder = New System.Windows.Forms.Button()
-        Me.GroupCredential = New System.Windows.Forms.GroupBox()
-        Me.TextPassword = New System.Windows.Forms.TextBox()
-        Me.TextUsername = New System.Windows.Forms.TextBox()
+        Me.LabelDownload = New System.Windows.Forms.Label()
+        Me.textBrowseFolder = New System.Windows.Forms.TextBox()
+        Me.buttonBrowseFolder = New System.Windows.Forms.Button()
+        Me.buttonUpdateYDL = New System.Windows.Forms.Button()
+        Me.GroupLogOutput = New System.Windows.Forms.GroupBox()
+        Me.buttonSaveLog = New System.Windows.Forms.Button()
+        Me.GroupDownload = New System.Windows.Forms.GroupBox()
+        Me.buttonOpenFolder = New System.Windows.Forms.Button()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.textPassword = New System.Windows.Forms.TextBox()
+        Me.textUsername = New System.Windows.Forms.TextBox()
         Me.LabelCredentialPassword = New System.Windows.Forms.Label()
         Me.LabelCredentialUsername = New System.Windows.Forms.Label()
         Me.CheckRequiresLogin = New System.Windows.Forms.CheckBox()
         Me.LabelTitle = New System.Windows.Forms.Label()
-        Me.ButtonClear = New System.Windows.Forms.Button()
-        Me.GroupDownloadChoice.SuspendLayout()
-        Me.GroupOutput.SuspendLayout()
-        Me.GroupDownloadLocation.SuspendLayout()
+        Me.GroupCredential = New System.Windows.Forms.GroupBox()
+        Me.checkUseFMP = New System.Windows.Forms.CheckBox()
+        Me.buttonClear = New System.Windows.Forms.Button()
+        Me.GroupQuality.SuspendLayout()
+        Me.GroupLogOutput.SuspendLayout()
+        Me.GroupDownload.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.GroupCredential.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -63,7 +64,7 @@ Partial Class GUI
         '
         Me.TextURL.ForeColor = System.Drawing.Color.DarkRed
         Me.TextURL.Location = New System.Drawing.Point(11, 98)
-        Me.TextURL.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextURL.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TextURL.Multiline = True
         Me.TextURL.Name = "TextURL"
         Me.TextURL.ScrollBars = System.Windows.Forms.ScrollBars.Both
@@ -71,160 +72,135 @@ Partial Class GUI
         Me.TextURL.TabIndex = 1
         Me.TextURL.WordWrap = False
         '
-        'ButtonDownload
+        'buttonDownload
         '
-        Me.ButtonDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonDownload.ForeColor = System.Drawing.Color.DarkRed
-        Me.ButtonDownload.Location = New System.Drawing.Point(373, 589)
-        Me.ButtonDownload.Margin = New System.Windows.Forms.Padding(4)
-        Me.ButtonDownload.Name = "ButtonDownload"
-        Me.ButtonDownload.Size = New System.Drawing.Size(204, 40)
-        Me.ButtonDownload.TabIndex = 3
-        Me.ButtonDownload.Text = "Download"
-        Me.ButtonDownload.UseVisualStyleBackColor = True
+        Me.buttonDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonDownload.ForeColor = System.Drawing.Color.DarkRed
+        Me.buttonDownload.Location = New System.Drawing.Point(371, 519)
+        Me.buttonDownload.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonDownload.Name = "buttonDownload"
+        Me.buttonDownload.Size = New System.Drawing.Size(407, 30)
+        Me.buttonDownload.TabIndex = 3
+        Me.buttonDownload.Text = "Download"
+        Me.buttonDownload.UseVisualStyleBackColor = True
         '
-        'TextOutputLog
+        'CheckFormatCustom
         '
-        Me.TextOutputLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextOutputLog.ForeColor = System.Drawing.Color.DarkRed
-        Me.TextOutputLog.Location = New System.Drawing.Point(11, 30)
-        Me.TextOutputLog.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextOutputLog.Multiline = True
-        Me.TextOutputLog.Name = "TextOutputLog"
-        Me.TextOutputLog.ReadOnly = True
-        Me.TextOutputLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextOutputLog.Size = New System.Drawing.Size(481, 405)
-        Me.TextOutputLog.TabIndex = 7
-        Me.TextOutputLog.WordWrap = False
+        Me.CheckFormatCustom.AutoSize = True
+        Me.CheckFormatCustom.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckFormatCustom.ForeColor = System.Drawing.Color.White
+        Me.CheckFormatCustom.Location = New System.Drawing.Point(11, 20)
+        Me.CheckFormatCustom.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CheckFormatCustom.Name = "CheckFormatCustom"
+        Me.CheckFormatCustom.Size = New System.Drawing.Size(281, 24)
+        Me.CheckFormatCustom.TabIndex = 6
+        Me.CheckFormatCustom.Text = "Use custom quality; select below."
+        Me.CheckFormatCustom.UseVisualStyleBackColor = True
         '
-        'ListOptions
+        'textOutputLog
         '
-        Me.ListOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ListOptions.ForeColor = System.Drawing.Color.DarkRed
-        Me.ListOptions.FormattingEnabled = True
-        Me.ListOptions.Items.AddRange(New Object() {"Video and Audio", "Video Only", "Audio Only"})
-        Me.ListOptions.Location = New System.Drawing.Point(160, 286)
-        Me.ListOptions.Margin = New System.Windows.Forms.Padding(4)
-        Me.ListOptions.Name = "ListOptions"
-        Me.ListOptions.Size = New System.Drawing.Size(201, 24)
-        Me.ListOptions.TabIndex = 8
+        Me.textOutputLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.textOutputLog.ForeColor = System.Drawing.Color.DarkRed
+        Me.textOutputLog.Location = New System.Drawing.Point(7, 26)
+        Me.textOutputLog.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.textOutputLog.Multiline = True
+        Me.textOutputLog.Name = "textOutputLog"
+        Me.textOutputLog.ReadOnly = True
+        Me.textOutputLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.textOutputLog.Size = New System.Drawing.Size(635, 282)
+        Me.textOutputLog.TabIndex = 7
+        Me.textOutputLog.WordWrap = False
         '
-        'GroupDownloadChoice
+        'listOptions
         '
-        Me.GroupDownloadChoice.Controls.Add(Me.RadioQualityAuto)
-        Me.GroupDownloadChoice.Controls.Add(Me.RadioQualityBest)
-        Me.GroupDownloadChoice.Controls.Add(Me.RadioQualityCustom)
-        Me.GroupDownloadChoice.Controls.Add(Me.LabelChoiceAudio)
-        Me.GroupDownloadChoice.Controls.Add(Me.LabelChoiceVideo)
-        Me.GroupDownloadChoice.Controls.Add(Me.ListFormatAudio)
-        Me.GroupDownloadChoice.Controls.Add(Me.ListFormatVideo)
-        Me.GroupDownloadChoice.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupDownloadChoice.ForeColor = System.Drawing.Color.White
-        Me.GroupDownloadChoice.Location = New System.Drawing.Point(11, 315)
-        Me.GroupDownloadChoice.Margin = New System.Windows.Forms.Padding(4)
-        Me.GroupDownloadChoice.Name = "GroupDownloadChoice"
-        Me.GroupDownloadChoice.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupDownloadChoice.Size = New System.Drawing.Size(352, 197)
-        Me.GroupDownloadChoice.TabIndex = 9
-        Me.GroupDownloadChoice.TabStop = False
-        Me.GroupDownloadChoice.Text = "Video/Audio Quality"
+        Me.listOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.listOptions.ForeColor = System.Drawing.Color.DarkRed
+        Me.listOptions.FormattingEnabled = True
+        Me.listOptions.Items.AddRange(New Object() {"Video and Audio", "Video Only", "Audio Only"})
+        Me.listOptions.Location = New System.Drawing.Point(160, 286)
+        Me.listOptions.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.listOptions.Name = "listOptions"
+        Me.listOptions.Size = New System.Drawing.Size(201, 24)
+        Me.listOptions.TabIndex = 8
         '
-        'RadioQualityAuto
+        'GroupQuality
         '
-        Me.RadioQualityAuto.AutoSize = True
-        Me.RadioQualityAuto.Location = New System.Drawing.Point(8, 26)
-        Me.RadioQualityAuto.Margin = New System.Windows.Forms.Padding(4)
-        Me.RadioQualityAuto.Name = "RadioQualityAuto"
-        Me.RadioQualityAuto.Size = New System.Drawing.Size(290, 24)
-        Me.RadioQualityAuto.TabIndex = 16
-        Me.RadioQualityAuto.TabStop = True
-        Me.RadioQualityAuto.Text = "Auto (Downloads Video and Audio)"
-        Me.RadioQualityAuto.UseVisualStyleBackColor = True
+        Me.GroupQuality.Controls.Add(Me.LabelQualityAudio)
+        Me.GroupQuality.Controls.Add(Me.LabelQualityVideo)
+        Me.GroupQuality.Controls.Add(Me.listFormatAudio)
+        Me.GroupQuality.Controls.Add(Me.listFormatVideo)
+        Me.GroupQuality.Controls.Add(Me.CheckFormatCustom)
+        Me.GroupQuality.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupQuality.ForeColor = System.Drawing.Color.White
+        Me.GroupQuality.Location = New System.Drawing.Point(11, 315)
+        Me.GroupQuality.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupQuality.Name = "GroupQuality"
+        Me.GroupQuality.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupQuality.Size = New System.Drawing.Size(352, 128)
+        Me.GroupQuality.TabIndex = 9
+        Me.GroupQuality.TabStop = False
+        Me.GroupQuality.Text = "Video/Audio Quality"
         '
-        'RadioQualityBest
+        'LabelQualityAudio
         '
-        Me.RadioQualityBest.AutoSize = True
-        Me.RadioQualityBest.Location = New System.Drawing.Point(8, 58)
-        Me.RadioQualityBest.Margin = New System.Windows.Forms.Padding(4)
-        Me.RadioQualityBest.Name = "RadioQualityBest"
-        Me.RadioQualityBest.Size = New System.Drawing.Size(157, 24)
-        Me.RadioQualityBest.TabIndex = 15
-        Me.RadioQualityBest.TabStop = True
-        Me.RadioQualityBest.Text = "Use Best Quality"
-        Me.RadioQualityBest.UseVisualStyleBackColor = True
+        Me.LabelQualityAudio.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelQualityAudio.ForeColor = System.Drawing.Color.White
+        Me.LabelQualityAudio.Location = New System.Drawing.Point(11, 89)
+        Me.LabelQualityAudio.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LabelQualityAudio.Name = "LabelQualityAudio"
+        Me.LabelQualityAudio.Size = New System.Drawing.Size(117, 30)
+        Me.LabelQualityAudio.TabIndex = 13
+        Me.LabelQualityAudio.Text = "Audio Quality"
+        Me.LabelQualityAudio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'RadioQualityCustom
+        'LabelQualityVideo
         '
-        Me.RadioQualityCustom.AutoSize = True
-        Me.RadioQualityCustom.Location = New System.Drawing.Point(8, 90)
-        Me.RadioQualityCustom.Margin = New System.Windows.Forms.Padding(4)
-        Me.RadioQualityCustom.Name = "RadioQualityCustom"
-        Me.RadioQualityCustom.Size = New System.Drawing.Size(180, 24)
-        Me.RadioQualityCustom.TabIndex = 14
-        Me.RadioQualityCustom.TabStop = True
-        Me.RadioQualityCustom.Text = "Use Custom Quality"
-        Me.RadioQualityCustom.UseVisualStyleBackColor = True
+        Me.LabelQualityVideo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelQualityVideo.ForeColor = System.Drawing.Color.White
+        Me.LabelQualityVideo.Location = New System.Drawing.Point(11, 49)
+        Me.LabelQualityVideo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LabelQualityVideo.Name = "LabelQualityVideo"
+        Me.LabelQualityVideo.Size = New System.Drawing.Size(117, 30)
+        Me.LabelQualityVideo.TabIndex = 12
+        Me.LabelQualityVideo.Text = "Video Quality"
+        Me.LabelQualityVideo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'LabelChoiceAudio
+        'listFormatAudio
         '
-        Me.LabelChoiceAudio.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelChoiceAudio.ForeColor = System.Drawing.Color.White
-        Me.LabelChoiceAudio.Location = New System.Drawing.Point(8, 154)
-        Me.LabelChoiceAudio.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.LabelChoiceAudio.Name = "LabelChoiceAudio"
-        Me.LabelChoiceAudio.Size = New System.Drawing.Size(117, 30)
-        Me.LabelChoiceAudio.TabIndex = 13
-        Me.LabelChoiceAudio.Text = "Audio Quality"
-        Me.LabelChoiceAudio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.listFormatAudio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.listFormatAudio.ForeColor = System.Drawing.Color.DarkRed
+        Me.listFormatAudio.FormattingEnabled = True
+        Me.listFormatAudio.ItemHeight = 20
+        Me.listFormatAudio.Items.AddRange(New Object() {"160k", "128k", "117k", "70k", "50k"})
+        Me.listFormatAudio.Location = New System.Drawing.Point(128, 89)
+        Me.listFormatAudio.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.listFormatAudio.Name = "listFormatAudio"
+        Me.listFormatAudio.Size = New System.Drawing.Size(215, 28)
+        Me.listFormatAudio.TabIndex = 11
         '
-        'LabelChoiceVideo
+        'listFormatVideo
         '
-        Me.LabelChoiceVideo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelChoiceVideo.ForeColor = System.Drawing.Color.White
-        Me.LabelChoiceVideo.Location = New System.Drawing.Point(8, 117)
-        Me.LabelChoiceVideo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.LabelChoiceVideo.Name = "LabelChoiceVideo"
-        Me.LabelChoiceVideo.Size = New System.Drawing.Size(117, 30)
-        Me.LabelChoiceVideo.TabIndex = 12
-        Me.LabelChoiceVideo.Text = "Video Quality"
-        Me.LabelChoiceVideo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.listFormatVideo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.listFormatVideo.ForeColor = System.Drawing.Color.DarkRed
+        Me.listFormatVideo.FormattingEnabled = True
+        Me.listFormatVideo.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.listFormatVideo.Items.AddRange(New Object() {"1080p", "720p", "480p", "360p", "240p", "144p"})
+        Me.listFormatVideo.Location = New System.Drawing.Point(128, 49)
+        Me.listFormatVideo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.listFormatVideo.Name = "listFormatVideo"
+        Me.listFormatVideo.Size = New System.Drawing.Size(212, 28)
+        Me.listFormatVideo.TabIndex = 10
         '
-        'ListFormatAudio
+        'LabelTypeDownload
         '
-        Me.ListFormatAudio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ListFormatAudio.ForeColor = System.Drawing.Color.DarkRed
-        Me.ListFormatAudio.FormattingEnabled = True
-        Me.ListFormatAudio.ItemHeight = 20
-        Me.ListFormatAudio.Items.AddRange(New Object() {"160k", "128k", "117k", "70k", "50k"})
-        Me.ListFormatAudio.Location = New System.Drawing.Point(133, 155)
-        Me.ListFormatAudio.Margin = New System.Windows.Forms.Padding(4)
-        Me.ListFormatAudio.Name = "ListFormatAudio"
-        Me.ListFormatAudio.Size = New System.Drawing.Size(207, 28)
-        Me.ListFormatAudio.TabIndex = 11
-        '
-        'ListFormatVideo
-        '
-        Me.ListFormatVideo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ListFormatVideo.ForeColor = System.Drawing.Color.DarkRed
-        Me.ListFormatVideo.FormattingEnabled = True
-        Me.ListFormatVideo.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.ListFormatVideo.Items.AddRange(New Object() {"1080p", "720p", "480p", "360p", "240p", "144p"})
-        Me.ListFormatVideo.Location = New System.Drawing.Point(133, 118)
-        Me.ListFormatVideo.Margin = New System.Windows.Forms.Padding(4)
-        Me.ListFormatVideo.Name = "ListFormatVideo"
-        Me.ListFormatVideo.Size = New System.Drawing.Size(207, 28)
-        Me.ListFormatVideo.TabIndex = 10
-        '
-        'LabelDownloadType
-        '
-        Me.LabelDownloadType.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelDownloadType.ForeColor = System.Drawing.Color.White
-        Me.LabelDownloadType.Location = New System.Drawing.Point(11, 286)
-        Me.LabelDownloadType.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.LabelDownloadType.Name = "LabelDownloadType"
-        Me.LabelDownloadType.Size = New System.Drawing.Size(149, 20)
-        Me.LabelDownloadType.TabIndex = 14
-        Me.LabelDownloadType.Text = "Download Type: "
+        Me.LabelTypeDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelTypeDownload.ForeColor = System.Drawing.Color.White
+        Me.LabelTypeDownload.Location = New System.Drawing.Point(11, 286)
+        Me.LabelTypeDownload.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LabelTypeDownload.Name = "LabelTypeDownload"
+        Me.LabelTypeDownload.Size = New System.Drawing.Size(149, 20)
+        Me.LabelTypeDownload.TabIndex = 14
+        Me.LabelTypeDownload.Text = "Download Type: "
         '
         'LabelURL
         '
@@ -237,141 +213,141 @@ Partial Class GUI
         Me.LabelURL.TabIndex = 15
         Me.LabelURL.Text = "List of URL to download: "
         '
-        'LabelDownloadLocation
+        'LabelDownload
         '
-        Me.LabelDownloadLocation.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelDownloadLocation.ForeColor = System.Drawing.Color.White
-        Me.LabelDownloadLocation.Location = New System.Drawing.Point(11, 20)
-        Me.LabelDownloadLocation.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.LabelDownloadLocation.Name = "LabelDownloadLocation"
-        Me.LabelDownloadLocation.Size = New System.Drawing.Size(331, 20)
-        Me.LabelDownloadLocation.TabIndex = 16
-        Me.LabelDownloadLocation.Text = "Location to download to: "
+        Me.LabelDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelDownload.ForeColor = System.Drawing.Color.White
+        Me.LabelDownload.Location = New System.Drawing.Point(11, 20)
+        Me.LabelDownload.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.LabelDownload.Name = "LabelDownload"
+        Me.LabelDownload.Size = New System.Drawing.Size(331, 20)
+        Me.LabelDownload.TabIndex = 16
+        Me.LabelDownload.Text = "Location to download to: "
         '
-        'TextBrowseFolder
+        'textBrowseFolder
         '
-        Me.TextBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
-        Me.TextBrowseFolder.Location = New System.Drawing.Point(11, 39)
-        Me.TextBrowseFolder.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBrowseFolder.Name = "TextBrowseFolder"
-        Me.TextBrowseFolder.Size = New System.Drawing.Size(331, 26)
-        Me.TextBrowseFolder.TabIndex = 17
+        Me.textBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
+        Me.textBrowseFolder.Location = New System.Drawing.Point(8, 39)
+        Me.textBrowseFolder.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.textBrowseFolder.Name = "textBrowseFolder"
+        Me.textBrowseFolder.Size = New System.Drawing.Size(335, 26)
+        Me.textBrowseFolder.TabIndex = 17
         '
-        'ButtonBrowseFolder
+        'buttonBrowseFolder
         '
-        Me.ButtonBrowseFolder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
-        Me.ButtonBrowseFolder.Location = New System.Drawing.Point(11, 74)
-        Me.ButtonBrowseFolder.Margin = New System.Windows.Forms.Padding(4)
-        Me.ButtonBrowseFolder.Name = "ButtonBrowseFolder"
-        Me.ButtonBrowseFolder.Size = New System.Drawing.Size(331, 30)
-        Me.ButtonBrowseFolder.TabIndex = 18
-        Me.ButtonBrowseFolder.Text = "Browse Download Folder..."
-        Me.ButtonBrowseFolder.UseVisualStyleBackColor = True
+        Me.buttonBrowseFolder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
+        Me.buttonBrowseFolder.Location = New System.Drawing.Point(8, 74)
+        Me.buttonBrowseFolder.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonBrowseFolder.Name = "buttonBrowseFolder"
+        Me.buttonBrowseFolder.Size = New System.Drawing.Size(336, 30)
+        Me.buttonBrowseFolder.TabIndex = 18
+        Me.buttonBrowseFolder.Text = "Browse Download Folder..."
+        Me.buttonBrowseFolder.UseVisualStyleBackColor = True
         '
-        'ButtonUpdateYDL
+        'buttonUpdateYDL
         '
-        Me.ButtonUpdateYDL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonUpdateYDL.ForeColor = System.Drawing.Color.DarkRed
-        Me.ButtonUpdateYDL.Location = New System.Drawing.Point(585, 588)
-        Me.ButtonUpdateYDL.Margin = New System.Windows.Forms.Padding(4)
-        Me.ButtonUpdateYDL.Name = "ButtonUpdateYDL"
-        Me.ButtonUpdateYDL.Size = New System.Drawing.Size(288, 41)
-        Me.ButtonUpdateYDL.TabIndex = 19
-        Me.ButtonUpdateYDL.Text = "Update YouTube-DL"
-        Me.ButtonUpdateYDL.UseVisualStyleBackColor = True
+        Me.buttonUpdateYDL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonUpdateYDL.ForeColor = System.Drawing.Color.DarkRed
+        Me.buttonUpdateYDL.Location = New System.Drawing.Point(785, 519)
+        Me.buttonUpdateYDL.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonUpdateYDL.Name = "buttonUpdateYDL"
+        Me.buttonUpdateYDL.Size = New System.Drawing.Size(239, 30)
+        Me.buttonUpdateYDL.TabIndex = 19
+        Me.buttonUpdateYDL.Text = "Update YouTube-DL"
+        Me.buttonUpdateYDL.UseVisualStyleBackColor = True
         '
-        'GroupOutput
+        'GroupLogOutput
         '
-        Me.GroupOutput.Controls.Add(Me.TextOutputLog)
-        Me.GroupOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupOutput.ForeColor = System.Drawing.Color.White
-        Me.GroupOutput.Location = New System.Drawing.Point(373, 138)
-        Me.GroupOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.GroupOutput.Name = "GroupOutput"
-        Me.GroupOutput.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupOutput.Size = New System.Drawing.Size(500, 443)
-        Me.GroupOutput.TabIndex = 14
-        Me.GroupOutput.TabStop = False
-        Me.GroupOutput.Text = "Output"
+        Me.GroupLogOutput.Controls.Add(Me.textOutputLog)
+        Me.GroupLogOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupLogOutput.ForeColor = System.Drawing.Color.White
+        Me.GroupLogOutput.Location = New System.Drawing.Point(373, 197)
+        Me.GroupLogOutput.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupLogOutput.Name = "GroupLogOutput"
+        Me.GroupLogOutput.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupLogOutput.Size = New System.Drawing.Size(651, 315)
+        Me.GroupLogOutput.TabIndex = 14
+        Me.GroupLogOutput.TabStop = False
+        Me.GroupLogOutput.Text = "Output"
         '
-        'ButtonSaveLog
+        'buttonSaveLog
         '
-        Me.ButtonSaveLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSaveLog.ForeColor = System.Drawing.Color.DarkRed
-        Me.ButtonSaveLog.Location = New System.Drawing.Point(585, 637)
-        Me.ButtonSaveLog.Margin = New System.Windows.Forms.Padding(4)
-        Me.ButtonSaveLog.Name = "ButtonSaveLog"
-        Me.ButtonSaveLog.Size = New System.Drawing.Size(288, 30)
-        Me.ButtonSaveLog.TabIndex = 20
-        Me.ButtonSaveLog.Text = "Save Download Log"
-        Me.ButtonSaveLog.UseVisualStyleBackColor = True
+        Me.buttonSaveLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonSaveLog.ForeColor = System.Drawing.Color.DarkRed
+        Me.buttonSaveLog.Location = New System.Drawing.Point(785, 558)
+        Me.buttonSaveLog.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonSaveLog.Name = "buttonSaveLog"
+        Me.buttonSaveLog.Size = New System.Drawing.Size(239, 30)
+        Me.buttonSaveLog.TabIndex = 20
+        Me.buttonSaveLog.Text = "Save Download Log"
+        Me.buttonSaveLog.UseVisualStyleBackColor = True
         '
-        'GroupDownloadLocation
+        'GroupDownload
         '
-        Me.GroupDownloadLocation.Controls.Add(Me.ButtonOpenFolder)
-        Me.GroupDownloadLocation.Controls.Add(Me.LabelDownloadLocation)
-        Me.GroupDownloadLocation.Controls.Add(Me.TextBrowseFolder)
-        Me.GroupDownloadLocation.Controls.Add(Me.ButtonBrowseFolder)
-        Me.GroupDownloadLocation.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupDownloadLocation.ForeColor = System.Drawing.Color.White
-        Me.GroupDownloadLocation.Location = New System.Drawing.Point(11, 519)
-        Me.GroupDownloadLocation.Margin = New System.Windows.Forms.Padding(4)
-        Me.GroupDownloadLocation.Name = "GroupDownloadLocation"
-        Me.GroupDownloadLocation.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupDownloadLocation.Size = New System.Drawing.Size(352, 148)
-        Me.GroupDownloadLocation.TabIndex = 21
-        Me.GroupDownloadLocation.TabStop = False
-        Me.GroupDownloadLocation.Text = "Download Location"
+        Me.GroupDownload.Controls.Add(Me.buttonOpenFolder)
+        Me.GroupDownload.Controls.Add(Me.LabelDownload)
+        Me.GroupDownload.Controls.Add(Me.textBrowseFolder)
+        Me.GroupDownload.Controls.Add(Me.buttonBrowseFolder)
+        Me.GroupDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupDownload.ForeColor = System.Drawing.Color.White
+        Me.GroupDownload.Location = New System.Drawing.Point(11, 443)
+        Me.GroupDownload.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupDownload.Name = "GroupDownload"
+        Me.GroupDownload.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupDownload.Size = New System.Drawing.Size(352, 148)
+        Me.GroupDownload.TabIndex = 21
+        Me.GroupDownload.TabStop = False
+        Me.GroupDownload.Text = "Download Location"
         '
-        'ButtonOpenFolder
+        'buttonOpenFolder
         '
-        Me.ButtonOpenFolder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonOpenFolder.ForeColor = System.Drawing.Color.DarkRed
-        Me.ButtonOpenFolder.Location = New System.Drawing.Point(11, 108)
-        Me.ButtonOpenFolder.Margin = New System.Windows.Forms.Padding(4)
-        Me.ButtonOpenFolder.Name = "ButtonOpenFolder"
-        Me.ButtonOpenFolder.Size = New System.Drawing.Size(331, 30)
-        Me.ButtonOpenFolder.TabIndex = 19
-        Me.ButtonOpenFolder.Text = "Open Folder"
-        Me.ButtonOpenFolder.UseVisualStyleBackColor = True
+        Me.buttonOpenFolder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonOpenFolder.ForeColor = System.Drawing.Color.DarkRed
+        Me.buttonOpenFolder.Location = New System.Drawing.Point(8, 111)
+        Me.buttonOpenFolder.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonOpenFolder.Name = "buttonOpenFolder"
+        Me.buttonOpenFolder.Size = New System.Drawing.Size(336, 30)
+        Me.buttonOpenFolder.TabIndex = 19
+        Me.buttonOpenFolder.Text = "Open Folder"
+        Me.buttonOpenFolder.UseVisualStyleBackColor = True
         '
-        'GroupCredential
+        'GroupBox4
         '
-        Me.GroupCredential.Controls.Add(Me.TextPassword)
-        Me.GroupCredential.Controls.Add(Me.TextUsername)
-        Me.GroupCredential.Controls.Add(Me.LabelCredentialPassword)
-        Me.GroupCredential.Controls.Add(Me.LabelCredentialUsername)
-        Me.GroupCredential.Controls.Add(Me.CheckRequiresLogin)
-        Me.GroupCredential.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupCredential.ForeColor = System.Drawing.Color.White
-        Me.GroupCredential.Location = New System.Drawing.Point(373, 10)
-        Me.GroupCredential.Margin = New System.Windows.Forms.Padding(4)
-        Me.GroupCredential.Name = "GroupCredential"
-        Me.GroupCredential.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupCredential.Size = New System.Drawing.Size(500, 128)
-        Me.GroupCredential.TabIndex = 14
-        Me.GroupCredential.TabStop = False
-        Me.GroupCredential.Text = "Credentials"
+        Me.GroupBox4.Controls.Add(Me.textPassword)
+        Me.GroupBox4.Controls.Add(Me.textUsername)
+        Me.GroupBox4.Controls.Add(Me.LabelCredentialPassword)
+        Me.GroupBox4.Controls.Add(Me.LabelCredentialUsername)
+        Me.GroupBox4.Controls.Add(Me.CheckRequiresLogin)
+        Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox4.ForeColor = System.Drawing.Color.White
+        Me.GroupBox4.Location = New System.Drawing.Point(11, 49)
+        Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox4.Size = New System.Drawing.Size(632, 128)
+        Me.GroupBox4.TabIndex = 14
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Credentials"
         '
-        'TextPassword
+        'textPassword
         '
-        Me.TextPassword.ForeColor = System.Drawing.Color.DarkRed
-        Me.TextPassword.Location = New System.Drawing.Point(107, 89)
-        Me.TextPassword.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextPassword.Name = "TextPassword"
-        Me.TextPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(8226)
-        Me.TextPassword.Size = New System.Drawing.Size(385, 26)
-        Me.TextPassword.TabIndex = 20
+        Me.textPassword.ForeColor = System.Drawing.Color.DarkRed
+        Me.textPassword.Location = New System.Drawing.Point(107, 89)
+        Me.textPassword.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.textPassword.Name = "textPassword"
+        Me.textPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(8226)
+        Me.textPassword.Size = New System.Drawing.Size(516, 26)
+        Me.textPassword.TabIndex = 20
         '
-        'TextUsername
+        'textUsername
         '
-        Me.TextUsername.ForeColor = System.Drawing.Color.DarkRed
-        Me.TextUsername.Location = New System.Drawing.Point(107, 49)
-        Me.TextUsername.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextUsername.Name = "TextUsername"
-        Me.TextUsername.Size = New System.Drawing.Size(385, 26)
-        Me.TextUsername.TabIndex = 19
+        Me.textUsername.ForeColor = System.Drawing.Color.DarkRed
+        Me.textUsername.Location = New System.Drawing.Point(107, 49)
+        Me.textUsername.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.textUsername.Name = "textUsername"
+        Me.textUsername.Size = New System.Drawing.Size(516, 26)
+        Me.textUsername.TabIndex = 19
         '
         'LabelCredentialPassword
         '
@@ -403,7 +379,7 @@ Partial Class GUI
         Me.CheckRequiresLogin.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckRequiresLogin.ForeColor = System.Drawing.Color.White
         Me.CheckRequiresLogin.Location = New System.Drawing.Point(11, 20)
-        Me.CheckRequiresLogin.Margin = New System.Windows.Forms.Padding(4)
+        Me.CheckRequiresLogin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CheckRequiresLogin.Name = "CheckRequiresLogin"
         Me.CheckRequiresLogin.Size = New System.Drawing.Size(259, 24)
         Me.CheckRequiresLogin.TabIndex = 6
@@ -422,36 +398,64 @@ Partial Class GUI
         Me.LabelTitle.Text = "YouTube-DL GUI"
         Me.LabelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'ButtonClear
+        'GroupCredential
         '
-        Me.ButtonClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonClear.ForeColor = System.Drawing.Color.DarkRed
-        Me.ButtonClear.Location = New System.Drawing.Point(373, 637)
-        Me.ButtonClear.Margin = New System.Windows.Forms.Padding(4)
-        Me.ButtonClear.Name = "ButtonClear"
-        Me.ButtonClear.Size = New System.Drawing.Size(204, 30)
-        Me.ButtonClear.TabIndex = 23
-        Me.ButtonClear.Text = "Clear"
-        Me.ButtonClear.UseVisualStyleBackColor = True
+        Me.GroupCredential.Controls.Add(Me.checkUseFMP)
+        Me.GroupCredential.Controls.Add(Me.GroupBox4)
+        Me.GroupCredential.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupCredential.ForeColor = System.Drawing.Color.White
+        Me.GroupCredential.Location = New System.Drawing.Point(373, 10)
+        Me.GroupCredential.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupCredential.Name = "GroupCredential"
+        Me.GroupCredential.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupCredential.Size = New System.Drawing.Size(651, 187)
+        Me.GroupCredential.TabIndex = 21
+        Me.GroupCredential.TabStop = False
+        Me.GroupCredential.Text = "Optional"
+        '
+        'checkUseFMP
+        '
+        Me.checkUseFMP.AutoSize = True
+        Me.checkUseFMP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.checkUseFMP.ForeColor = System.Drawing.Color.White
+        Me.checkUseFMP.Location = New System.Drawing.Point(11, 20)
+        Me.checkUseFMP.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.checkUseFMP.Name = "checkUseFMP"
+        Me.checkUseFMP.Size = New System.Drawing.Size(127, 24)
+        Me.checkUseFMP.TabIndex = 6
+        Me.checkUseFMP.Text = "Use FFMpeg"
+        Me.checkUseFMP.UseVisualStyleBackColor = True
+        '
+        'buttonClear
+        '
+        Me.buttonClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonClear.ForeColor = System.Drawing.Color.DarkRed
+        Me.buttonClear.Location = New System.Drawing.Point(371, 558)
+        Me.buttonClear.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonClear.Name = "buttonClear"
+        Me.buttonClear.Size = New System.Drawing.Size(407, 30)
+        Me.buttonClear.TabIndex = 23
+        Me.buttonClear.Text = "Clear Log"
+        Me.buttonClear.UseVisualStyleBackColor = True
         '
         'GUI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Maroon
-        Me.ClientSize = New System.Drawing.Size(886, 676)
-        Me.Controls.Add(Me.ButtonClear)
-        Me.Controls.Add(Me.LabelTitle)
+        Me.ClientSize = New System.Drawing.Size(1040, 602)
+        Me.Controls.Add(Me.buttonClear)
         Me.Controls.Add(Me.GroupCredential)
-        Me.Controls.Add(Me.GroupDownloadLocation)
-        Me.Controls.Add(Me.ButtonSaveLog)
-        Me.Controls.Add(Me.GroupOutput)
-        Me.Controls.Add(Me.ButtonUpdateYDL)
-        Me.Controls.Add(Me.ButtonDownload)
+        Me.Controls.Add(Me.LabelTitle)
+        Me.Controls.Add(Me.GroupDownload)
+        Me.Controls.Add(Me.buttonSaveLog)
+        Me.Controls.Add(Me.GroupLogOutput)
+        Me.Controls.Add(Me.buttonUpdateYDL)
+        Me.Controls.Add(Me.buttonDownload)
         Me.Controls.Add(Me.LabelURL)
-        Me.Controls.Add(Me.LabelDownloadType)
-        Me.Controls.Add(Me.GroupDownloadChoice)
-        Me.Controls.Add(Me.ListOptions)
+        Me.Controls.Add(Me.LabelTypeDownload)
+        Me.Controls.Add(Me.GroupQuality)
+        Me.Controls.Add(Me.listOptions)
         Me.Controls.Add(Me.TextURL)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -459,12 +463,14 @@ Partial Class GUI
         Me.MaximizeBox = False
         Me.Name = "GUI"
         Me.Text = "YouTube-DL GUI"
-        Me.GroupDownloadChoice.ResumeLayout(False)
-        Me.GroupDownloadChoice.PerformLayout()
-        Me.GroupOutput.ResumeLayout(False)
-        Me.GroupOutput.PerformLayout()
-        Me.GroupDownloadLocation.ResumeLayout(False)
-        Me.GroupDownloadLocation.PerformLayout()
+        Me.GroupQuality.ResumeLayout(False)
+        Me.GroupQuality.PerformLayout()
+        Me.GroupLogOutput.ResumeLayout(False)
+        Me.GroupLogOutput.PerformLayout()
+        Me.GroupDownload.ResumeLayout(False)
+        Me.GroupDownload.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.GroupCredential.ResumeLayout(False)
         Me.GroupCredential.PerformLayout()
         Me.ResumeLayout(False)
@@ -472,33 +478,33 @@ Partial Class GUI
 
     End Sub
     Friend WithEvents TextURL As TextBox
-    Friend WithEvents ButtonDownload As Button
-    Friend WithEvents TextOutputLog As TextBox
-    Friend WithEvents ListOptions As ComboBox
-    Friend WithEvents GroupDownloadChoice As GroupBox
-    Friend WithEvents LabelChoiceAudio As Label
-    Friend WithEvents LabelChoiceVideo As Label
-    Friend WithEvents ListFormatAudio As ComboBox
-    Friend WithEvents ListFormatVideo As ComboBox
-    Friend WithEvents LabelDownloadType As Label
+    Friend WithEvents buttonDownload As Button
+    Friend WithEvents CheckFormatCustom As CheckBox
+    Friend WithEvents textOutputLog As TextBox
+    Friend WithEvents listOptions As ComboBox
+    Friend WithEvents GroupQuality As GroupBox
+    Friend WithEvents LabelQualityAudio As Label
+    Friend WithEvents LabelQualityVideo As Label
+    Friend WithEvents listFormatAudio As ComboBox
+    Friend WithEvents listFormatVideo As ComboBox
+    Friend WithEvents LabelTypeDownload As Label
     Friend WithEvents LabelURL As Label
-    Friend WithEvents LabelDownloadLocation As Label
-    Friend WithEvents TextBrowseFolder As TextBox
-    Friend WithEvents ButtonBrowseFolder As Button
-    Friend WithEvents ButtonUpdateYDL As Button
-    Friend WithEvents GroupOutput As GroupBox
-    Friend WithEvents ButtonSaveLog As Button
-    Friend WithEvents GroupDownloadLocation As GroupBox
-    Friend WithEvents GroupCredential As GroupBox
-    Friend WithEvents TextPassword As TextBox
-    Friend WithEvents TextUsername As TextBox
+    Friend WithEvents LabelDownload As Label
+    Friend WithEvents textBrowseFolder As TextBox
+    Friend WithEvents buttonBrowseFolder As Button
+    Friend WithEvents buttonUpdateYDL As Button
+    Friend WithEvents GroupLogOutput As GroupBox
+    Friend WithEvents buttonSaveLog As Button
+    Friend WithEvents GroupDownload As GroupBox
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents textPassword As TextBox
+    Friend WithEvents textUsername As TextBox
     Friend WithEvents LabelCredentialPassword As Label
     Friend WithEvents LabelCredentialUsername As Label
     Friend WithEvents CheckRequiresLogin As CheckBox
     Friend WithEvents LabelTitle As Label
-    Friend WithEvents ButtonOpenFolder As Button
-    Friend WithEvents ButtonClear As Button
-    Friend WithEvents RadioQualityCustom As RadioButton
-    Friend WithEvents RadioQualityAuto As RadioButton
-    Friend WithEvents RadioQualityBest As RadioButton
+    Friend WithEvents buttonOpenFolder As Button
+    Friend WithEvents GroupCredential As GroupBox
+    Friend WithEvents checkUseFMP As CheckBox
+    Friend WithEvents buttonClear As Button
 End Class

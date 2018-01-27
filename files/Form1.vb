@@ -1,95 +1,116 @@
 ﻿Imports System.IO
+Imports System.ComponentModel
 Public Class GUI
     Const Quote As String = Chr(34)
     Dim ProcessInfo As New ProcessStartInfo
+    'Dim BackgroundRun As New BackgroundWorker
     Dim downCompiler As New Process()
     Dim urlText As String
     Dim dirBinYDL, dirBinFMPG, dirFolderDownload As String 'Marks the location of the ydl/fmpg files
     Protected username, password As String
+    Dim useFFMpeg As Boolean
     'These files are found by either inputting directly or selected with folder selector. Your choice :D
     'Use a input box or set a folder browser to this folder...
     Private Sub GUI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         checkCustomFormatBox()
         checkPasswordBox()
         setDefaultValues()
+        checkUseFMP.Checked = True
+        If (Not System.IO.Directory.Exists("settings")) Then
+            System.IO.Directory.CreateDirectory("settings")
+        End If
     End Sub
     Private Sub setDefaultValues()
-        ListOptions.SelectedItem = "Video and Audio"
-        ListFormatVideo.SelectedItem = "720p"
-        ListFormatAudio.SelectedItem = "128k"
+        listOptions.SelectedItem = "Video and Audio"
+        listFormatVideo.SelectedItem = "720p"
+        listFormatAudio.SelectedItem = "128k"
         dirFolderDownload = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)
-        TextBrowseFolder.Text = dirFolderDownload
-        RadioQualityAuto.Checked = True
+        textBrowseFolder.Text = dirFolderDownload
     End Sub
-    Private Sub buttonDownload_Click(sender As Object, e As EventArgs) Handles ButtonDownload.Click
-        Select Case TextURL.Text = ""
-            Case False
-                If CheckRequiresLogin.Checked <> True Then
-                    username = ""
-                    password = ""
-                    setDownload()
-                ElseIf CheckRequiresLogin.Checked = True And TextUsername.Text <> "" And TextPassword.Text <> "" Then
-                    username = " -u " & TextUsername.Text
-                    password = " -p " & TextPassword.Text
-                    setDownload()
-                Else
-                    TextOutputLog.Text = "Username/Password fields blank, please enter."
-                End If
+    Private Sub buttonDownload_Click(sender As Object, e As EventArgs) Handles buttonDownload.Click
+        Select Case TextURL.Text
+            Case ""
+                textOutputLog.Text = "URL empty, please enter URL."
             Case Else
-                TextOutputLog.Text = "URL empty, please enter URL."
+                Select Case CheckRequiresLogin.Checked
+                    Case False
+                        username = ""
+                        password = ""
+                        setDownload()
+                    'BackgroundRun.RunWorkerAsync()
+                    Case True
+                        If textUsername.Text <> "" And textPassword.Text <> "" Then
+                            username = " -u " & textUsername.Text
+                            password = " -p " & textPassword.Text
+                            'BackgroundRun.RunWorkerAsync()
+                            setDownload()
+                        Else
+                            textOutputLog.Text = "Username/Password fields blank, please enter."
+                        End If
+                End Select
         End Select
     End Sub
     Private Sub setDownload()
-        TextOutputLog.AppendText("Download started" & vbNewLine)
-        If CheckRequiresLogin.Checked = True And TextUsername.Text <> "" And TextPassword.Text <> "" Then
-            TextOutputLog.AppendText("Using credentials of username " & TextUsername.Text & vbNewLine & vbNewLine)
+        textOutputLog.AppendText("Download started" & vbNewLine)
+        textOutputLog.AppendText("Download location set to " & dirFolderDownload & vbNewLine)
+        If CheckRequiresLogin.Checked = True And textUsername.Text <> "" And textPassword.Text <> "" Then
+            textOutputLog.AppendText("Using credentials of username " & textUsername.Text & vbNewLine & vbNewLine)
         End If
-        If checkStoredLocationFiles() = True Then
+        If checkUseFMP.Checked = True Then
+            useFFMpeg = True
+        Else
+            useFFMpeg = False
+        End If
+        If checkStoredLocationFiles() = False Then
+            textOutputLog.AppendText("ERROR: YouTube-DL/FFMpeg not present in specified location" & vbNewLine & "------------------" & vbNewLine)
+        Else
             setCompiler()
             checkDownloadType()
         End If
     End Sub
-    Private Sub checkCustomFormat_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub checkCustomFormat_CheckedChanged(sender As Object, e As EventArgs) Handles CheckFormatCustom.CheckedChanged
         checkCustomFormatBox()
     End Sub
-    Private Sub buttonBrowseFolder_Click(sender As Object, e As EventArgs) Handles ButtonBrowseFolder.Click
+    Private Sub buttonBrowseFolder_Click(sender As Object, e As EventArgs) Handles buttonBrowseFolder.Click
         Dim downloadBrowser As New FolderBrowserDialog
         downloadBrowser.Description = "Select folder to download videos to."
         downloadBrowser.ShowDialog()
         dirFolderDownload = downloadBrowser.SelectedPath
         If (dirFolderDownload = "") Or (dirFolderDownload = " ") Then
-            TextOutputLog.AppendText("Please enter valid directory!" & vbNewLine)
+            textOutputLog.AppendText("Please enter valid directory!" & vbNewLine)
             dirFolderDownload = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)
         Else
-            TextOutputLog.AppendText("Download path selected to " & dirFolderDownload & vbNewLine)
+            textOutputLog.AppendText("Download path selected to " & dirFolderDownload & vbNewLine & "------------------" & vbNewLine)
         End If
-        TextBrowseFolder.Text = dirFolderDownload
+        textBrowseFolder.Text = dirFolderDownload
     End Sub
     Private Sub checkCustomFormatBox()
-        Select Case RadioQualityCustom.Checked
+        Select Case CheckFormatCustom.Checked
             Case False
-                ListFormatVideo.Enabled = False
-                ListFormatAudio.Enabled = False
+                listFormatVideo.Enabled = False
+                listFormatAudio.Enabled = False
             Case True
-                ListFormatVideo.Enabled = True
-                ListFormatAudio.Enabled = True
+                listFormatVideo.Enabled = True
+                listFormatAudio.Enabled = True
         End Select
     End Sub
     Private Sub checkPasswordBox()
         Select Case CheckRequiresLogin.Checked
             Case False
-                TextUsername.Clear()
-                TextPassword.Clear()
-                TextUsername.Enabled = False
-                TextPassword.Enabled = False
+                textUsername.Clear()
+                textPassword.Clear()
+                textUsername.Enabled = False
+                textPassword.Enabled = False
             Case True
-                TextUsername.Enabled = True
-                TextPassword.Enabled = True
+                textUsername.Enabled = True
+                textPassword.Enabled = True
         End Select
     End Sub
     Private Sub checkRequiresLogin_CheckedChanged(sender As Object, e As EventArgs) Handles CheckRequiresLogin.CheckedChanged
         checkPasswordBox()
     End Sub
+
+#Region "Form-Unrelated"
     Private Sub setCompiler()
         ProcessInfo.FileName = dirBinYDL
         ProcessInfo.UseShellExecute = False
@@ -98,63 +119,59 @@ Public Class GUI
         ProcessInfo.CreateNoWindow = True
     End Sub
     Private Function checkStoredLocationFiles()
-        Select Case My.Computer.FileSystem.FileExists("settings/directory_YDL.txt")
-            Case True
-                dirBinYDL = My.Computer.FileSystem.ReadAllText("settings/directory_YDL.txt")
-                Select Case My.Computer.FileSystem.FileExists(dirBinYDL)
-                    Case True
-                        Select Case My.Computer.FileSystem.FileExists("settings/directory_FMPG.txt")
-                            Case True
-                                dirBinFMPG = My.Computer.FileSystem.ReadAllText("settings/directory_FMPG.txt")
-                                Select Case My.Computer.FileSystem.FileExists(dirBinFMPG & "\ffmpeg.exe")
-                                    Case True
-                                        Return True
-                                    Case Else
-                                        checkDirectoryFMPG()
-                                        Return False
-                                End Select
-                            Case Else
-                                checkDirectoryFMPG()
-                                Return False
-                        End Select
-                    Case Else
-                        checkDirectoryYDL()
-                        Return False
-                End Select
-            Case Else
+        If My.Computer.FileSystem.FileExists("settings/directory_YDL.txt") <> True Then
+            checkDirectoryYDL()
+            Return False
+        Else
+            dirBinYDL = My.Computer.FileSystem.ReadAllText("settings/directory_YDL.txt")
+            If My.Computer.FileSystem.FileExists(dirBinYDL) <> True Then
                 checkDirectoryYDL()
                 Return False
-        End Select
+            Else
+                If useFFMpeg = False Then
+                    Return True
+                Else
+                    If My.Computer.FileSystem.FileExists("settings/directory_FMPG.txt") <> True Then
+                        checkDirectoryFMPG()
+                        Return False
+                    Else
+                        dirBinFMPG = My.Computer.FileSystem.ReadAllText("settings/directory_FMPG.txt")
+                        If My.Computer.FileSystem.FileExists(dirBinFMPG & "\ffmpeg.exe") <> True Then
+                            checkDirectoryFMPG()
+                            Return False
+                        Else
+                            Return True
+                        End If
+                    End If
+                End If
+            End If
+        End If
     End Function
     Private Sub checkDirectoryYDL()
-        TextOutputLog.AppendText("ERROR: YouTube-DL or FFMpeg not present in specified location" & vbNewLine & vbNewLine)
         Dim ydlBrowser As New FolderBrowserDialog
         ydlBrowser.Description = "Select folder with youtube-dl.exe and its related files."
         ydlBrowser.ShowDialog()
         dirBinYDL = ydlBrowser.SelectedPath & "\youtube-dl.exe"
-        If (Not System.IO.Directory.Exists("settings")) Then
-            System.IO.Directory.CreateDirectory("settings")
-        End If
         Dim ydlWriter As New StreamWriter("settings/directory_YDL.txt")
         ydlWriter.Write(dirBinYDL)
         ydlWriter.Close()
+        'checkStoredLocationFiles()
     End Sub
     Private Sub checkDirectoryFMPG()
-        TextOutputLog.AppendText("ERROR: YouTube-DL or FFMpeg not present in specified location" & vbNewLine & vbNewLine)
         Dim ffmpegBrowser As New FolderBrowserDialog
         ffmpegBrowser.Description = "Select folder with ffmpeg.exe and its related files."
         ffmpegBrowser.ShowDialog()
         dirBinFMPG = ffmpegBrowser.SelectedPath
-        If (Not System.IO.Directory.Exists("settings")) Then
-            System.IO.Directory.CreateDirectory("settings")
-        End If
         Dim ffmpegWriter As New StreamWriter("settings/directory_FMPG.txt")
         ffmpegWriter.Write(dirBinFMPG)
         ffmpegWriter.Close()
+        'checkStoredLocationFiles()
     End Sub
+#End Region
+#Region "Download"
     Private Sub checkDownloadType()
         Dim downloadTypeChoice As Integer
-        Select Case ListOptions.SelectedItem
+        Select Case listOptions.SelectedItem
             Case "Video and Audio"
                 downloadTypeChoice = 1
             Case "Video Only"
@@ -164,142 +181,113 @@ Public Class GUI
         End Select
         checkDownloadFormat(downloadTypeChoice)
     End Sub
-    Private Function checkQualityRadio()
-        If RadioQualityAuto.Checked And Not RadioQualityBest.Checked And Not RadioQualityCustom.Checked Then
-            Return "Auto"
-        ElseIf RadioQualityBest.Checked And Not RadioQualityAuto.Checked And Not RadioQualityCustom.Checked Then
-            Return "Best"
-        Else
-            Return "Custom"
-        End If
-    End Function
     Private Sub checkDownloadFormat(ByVal downloadTypeChoice As Integer)
         Dim qualityVideo, qualityAudio As String
-        Dim qualityString
-        Select Case checkQualityRadio()
-            Case "Auto"
-                qualityString = ""
-                downloadTypeChoice = 1
-            Case "Best"
-                Select Case ListOptions.SelectedItem
-                    Case "Video and Audio"
-                        qualityString = "-f bestvideo+bestaudio "
-                    Case "Video Only"
-                        qualityString = "-f bestvideo "
-                    Case "Audio Only"
-                        qualityString = "-f bestaudio "
-                End Select
-            Case "Custom"
-                chooseCustomQuality(qualityVideo, qualityAudio)
-                Select Case ListOptions.SelectedItem
-                    Case "Video and Audio"
-                        qualityString = "-f " & Quote & qualityVideo & "+" & qualityAudio & Quote & " "
-                    Case "Video Only"
-                        qualityString = "-f " & Quote & qualityVideo & Quote & " "
-                    Case "Audio Only"
-                        qualityString = "-f " & Quote & qualityAudio & Quote & " "
-                End Select
-        End Select
-        selectEachLineURL(downloadTypeChoice, qualityString)
+        If CheckFormatCustom.Checked <> True Then
+            qualityVideo = "bestvideo[ext=mp4]"
+            qualityAudio = "bestaudio"
+        ElseIf CheckFormatCustom.Checked = True Then
+            Select Case listFormatVideo.SelectedItem
+                Case "1080p"
+                    qualityVideo = "137"
+                Case "720p"
+                    qualityVideo = "136"
+                Case "480p"
+                    qualityVideo = "135"
+                Case "360p"
+                    qualityVideo = "134"
+                Case "240p"
+                    qualityVideo = "133"
+                Case "144p"
+                    qualityVideo = "160"
+            End Select
+            Select Case listFormatAudio.SelectedItem
+                Case "160k"
+                    qualityAudio = "251"
+                Case "128k"
+                    qualityAudio = "140"
+                Case "117k"
+                    qualityAudio = "171"
+                Case "70k"
+                    qualityAudio = "250"
+                Case "50k"
+                    qualityAudio = "249"
+            End Select
+        End If
+        selectEachLineURL(downloadTypeChoice, qualityVideo, qualityAudio)
     End Sub
-    Private Sub chooseCustomQuality(ByRef qualityVideo As String, ByRef qualityAudio As String)
-        Select Case ListFormatVideo.SelectedItem
-            Case "1080p"
-                qualityVideo = "137"
-            Case "720p"
-                qualityVideo = "136"
-            Case "480p"
-                qualityVideo = "135"
-            Case "360p"
-                qualityVideo = "134"
-            Case "240p"
-                qualityVideo = "133"
-            Case "144p"
-                qualityVideo = "160"
-        End Select
-        Select Case ListFormatAudio.SelectedItem
-            Case "160k"
-                qualityAudio = "251"
-            Case "128k"
-                qualityAudio = "140"
-            Case "117k"
-                qualityAudio = "171"
-            Case "70k"
-                qualityAudio = "250"
-            Case "50k"
-                qualityAudio = "249"
-        End Select
-    End Sub
-    Private Sub selectEachLineURL(ByVal downloadTypeChoice As Integer, ByVal qualityString As String)
+    Private Sub selectEachLineURL(ByVal downloadTypeChoice As Integer, ByVal qualityVideo As String, ByVal qualityAudio As String)
         For Each urlText In TextURL.Lines
-            checkURL(downloadTypeChoice, qualityString)
+            textOutputLog.AppendText(vbNewLine & "Downloading URL " & urlText & vbNewLine)
+            checkURL(downloadTypeChoice, qualityVideo, qualityAudio)
         Next
+        textOutputLog.AppendText(vbNewLine & "Download complete" & vbNewLine & "------------------" & vbNewLine)
     End Sub
-    Private Sub checkURL(ByVal downloadTypeChoice As Integer, ByVal qualityString As String)
-        Dim constArgument, playlistString As String '= "-ciw --no-part --ffmpeg-location " & Quote & dirBinFMPG & Quote & username & password & qualityString 'Constant for all downloaded options.
-        'urlText = textURL.Text 'Remember quotations to allow ffmpeg
-        dirFolderDownload = TextBrowseFolder.Text
+
+    Private Sub checkURL(ByVal downloadTypeChoice As Integer, ByVal qualityVideo As String, ByVal qualityAudio As String)
+        Dim constArgument As String = "-ciw --embed-sub --convert-subtitles srt --all-subs --recode-video mp4 --no-part --prefer-ffmpeg " & username & password 'Constant for all downloaded options.
+        Dim qualityString, isPlaylistString, directoryDownloadString As String
+        If useFFMpeg = True Then
+            constArgument = constArgument & " --ffmpeg-location " & Quote & dirBinFMPG & Quote
+        End If
         Select Case UCase(urlText).Contains("PLAYLIST")
             Case True
-                playlistString = "--yes-playlist -o " & Quote & dirFolderDownload & "\%(playlist)s\%(title)s.%(ext)s" & Quote
+                isPlaylistString = " --yes-playlist"
+                directoryDownloadString = " -o " & Quote & dirFolderDownload & "\%(playlist)s\%(title)s.%(ext)s" & Quote
             Case False
-                playlistString = "--no-playlist -o " & Quote & dirFolderDownload & "\%(title)s.%(ext)s" & Quote
+                isPlaylistString = " --no-playlist"
+                directoryDownloadString = " -o " & Quote & dirFolderDownload & "\%(title)s.%(ext)s" & Quote
         End Select
-        constArgument = "-ciw --embed-sub --convert-subtitles srt --all-subs --recode-video mp4 --no-part --prefer-ffmpeg " & username & password 'Constant for all downloaded options.
+
         Select Case downloadTypeChoice
             Case 1
-                'ProcessInfo.Arguments = constArgument & " -f bestvideo+bestaudio --audio-format m4a -o downloaded/both/%(playlist)s/%(title)s.%(ext)s --merge-output-format mp4 " & urlText
-                ProcessInfo.Arguments = constArgument & " --audio-format m4a --recode-video mp4 --convert-subs srt --embed-subs " & Quote & urlText & Quote
+                qualityString = " -f " & qualityVideo & "+" & qualityAudio & " -vcodec libx264 --audio-format m4a "
             Case 2
-                ProcessInfo.Arguments = constArgument & " --convert-subs srt --recode-video mp4 --embed-subs " & Quote & urlText & Quote
+                qualityString = " -f " & qualityVideo & " -vcodec libx264 "
             Case 3
-                ProcessInfo.Arguments = constArgument & " --audio-format mp3 --embed-thumbnail -x " & Quote & urlText & Quote
+                qualityString = " -f " & qualityAudio & " --embed-thumbnail --audio-format mp3 -x "
         End Select
-        'MsgBox(ProcessInfo.Arguments)
-        TextOutputLog.AppendText(vbNewLine & "Argument: " & ProcessInfo.Arguments & vbNewLine)
+        dirFolderDownload = textBrowseFolder.Text
+        ProcessInfo.Arguments = constArgument & qualityString & isPlaylistString & directoryDownloadString & " " & urlText
+        MsgBox(ProcessInfo.Arguments)
         runDownloadUpdate()
     End Sub
-    Private Sub buttonOpenFolder_Click(sender As Object, e As EventArgs) Handles ButtonOpenFolder.Click
-        Process.Start("explorer.exe", TextBrowseFolder.Text)
+    Private Sub buttonOpenFolder_Click(sender As Object, e As EventArgs) Handles buttonOpenFolder.Click
+        Process.Start("explorer.exe", textBrowseFolder.Text)
     End Sub
-    Private Sub buttonClear_Click(sender As Object, e As EventArgs) Handles ButtonClear.Click
-        TextOutputLog.Clear()
+
+    Private Sub buttonClear_Click(sender As Object, e As EventArgs) Handles buttonClear.Click
+        textOutputLog.Clear()
     End Sub
-    Private Sub isAutoQuality_CheckedChanged(sender As Object, e As EventArgs) Handles RadioQualityAuto.CheckedChanged
-        ListOptions.Enabled = False
-        checkCustomFormatBox()
-    End Sub
-    Private Sub isBestQuality_CheckedChanged(sender As Object, e As EventArgs) Handles RadioQualityBest.CheckedChanged
-        ListOptions.Enabled = True
-        checkCustomFormatBox()
-    End Sub
-    Private Sub isCustomQuality_CheckedChanged(sender As Object, e As EventArgs) Handles RadioQualityCustom.CheckedChanged
-        ListOptions.Enabled = True
-        checkCustomFormatBox()
-    End Sub
-    Private Sub runDownloadUpdate()
+
+    Private Sub runDownloadUpdate() ' Handles BackgroundWorker1.DoWork 'ByRef downCompiler As Object)
+        'textOutput.Text = "Download started" & vbNewLine & vbNewLine
         downCompiler.StartInfo = ProcessInfo
         downCompiler.Start()
+        'BackgroundRun.ReportProgress(10)
         Do
-            TextOutputLog.AppendText(downCompiler.StandardOutput.ReadLine & vbNewLine)
+            'Dim outputStream As String
+            'textOutput.AppendText(downCompiler.StandardOutput.ReadLine & vbNewLine)
+            textOutputLog.AppendText(downCompiler.StandardOutput.ReadLine & vbNewLine)
         Loop Until downCompiler.HasExited = True
-        TextOutputLog.AppendText(downCompiler.StandardError.ReadToEnd)
-        TextOutputLog.AppendText(vbNewLine & "Download complete" & vbNewLine & "------------------" & vbNewLine)
+        textOutputLog.AppendText(downCompiler.StandardError.ReadToEnd)
     End Sub
-    Private Sub buttonUpdateYDL_Click(sender As Object, e As EventArgs) Handles ButtonUpdateYDL.Click
+
+    Private Sub buttonUpdateYDL_Click(sender As Object, e As EventArgs) Handles buttonUpdateYDL.Click
         ProcessInfo.Arguments = "-U"
         checkStoredLocationFiles()
         setCompiler()
         runDownloadUpdate()
     End Sub
-    Private Sub buttonSaveLog_Click(sender As Object, e As EventArgs) Handles ButtonSaveLog.Click
+    Private Sub buttonSaveLog_Click(sender As Object, e As EventArgs) Handles buttonSaveLog.Click
         If (Not System.IO.Directory.Exists("log")) Then
             System.IO.Directory.CreateDirectory("log")
         End If
         Dim logDirectory As String = "log/log" & DateTime.Now.ToString("yyMMdd") & "_" & DateTime.Now.ToString("HHmmss") & ".txt"
         Dim logWriter As New StreamWriter(logDirectory)
-        logWriter.Write(TextOutputLog.Text)
+        logWriter.Write(textOutputLog.Text)
         logWriter.Close()
-        TextOutputLog.AppendText("Log saved" & vbNewLine & "------------------" & vbNewLine)
+        textOutputLog.AppendText("Log saved" & vbNewLine & "------------------" & vbNewLine)
     End Sub
+#End Region
 End Class
