@@ -22,11 +22,12 @@ Partial Class GUI
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GUI))
         Me.TextURL = New System.Windows.Forms.TextBox()
         Me.buttonDownload = New System.Windows.Forms.Button()
         Me.CheckFormatCustom = New System.Windows.Forms.CheckBox()
-        Me.textOutputLog = New System.Windows.Forms.TextBox()
+        Me.TextOutputLog = New System.Windows.Forms.TextBox()
         Me.listOptions = New System.Windows.Forms.ComboBox()
         Me.GroupQuality = New System.Windows.Forms.GroupBox()
         Me.LabelQualityAudio = New System.Windows.Forms.Label()
@@ -36,7 +37,7 @@ Partial Class GUI
         Me.LabelTypeDownload = New System.Windows.Forms.Label()
         Me.LabelURL = New System.Windows.Forms.Label()
         Me.LabelDownload = New System.Windows.Forms.Label()
-        Me.textBrowseFolder = New System.Windows.Forms.TextBox()
+        Me.TextBrowseFolder = New System.Windows.Forms.TextBox()
         Me.buttonBrowseFolder = New System.Windows.Forms.Button()
         Me.buttonUpdateYDL = New System.Windows.Forms.Button()
         Me.GroupLogOutput = New System.Windows.Forms.GroupBox()
@@ -53,6 +54,9 @@ Partial Class GUI
         Me.GroupCredential = New System.Windows.Forms.GroupBox()
         Me.checkUseFMP = New System.Windows.Forms.CheckBox()
         Me.buttonClear = New System.Windows.Forms.Button()
+        Me.Timer = New System.Windows.Forms.Timer(Me.components)
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.TextOutputCurrent = New System.Windows.Forms.TextBox()
         Me.GroupQuality.SuspendLayout()
         Me.GroupLogOutput.SuspendLayout()
         Me.GroupDownload.SuspendLayout()
@@ -64,7 +68,7 @@ Partial Class GUI
         '
         Me.TextURL.ForeColor = System.Drawing.Color.DarkRed
         Me.TextURL.Location = New System.Drawing.Point(11, 98)
-        Me.TextURL.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextURL.Margin = New System.Windows.Forms.Padding(4)
         Me.TextURL.Multiline = True
         Me.TextURL.Name = "TextURL"
         Me.TextURL.ScrollBars = System.Windows.Forms.ScrollBars.Both
@@ -76,8 +80,8 @@ Partial Class GUI
         '
         Me.buttonDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buttonDownload.ForeColor = System.Drawing.Color.DarkRed
-        Me.buttonDownload.Location = New System.Drawing.Point(371, 519)
-        Me.buttonDownload.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonDownload.Location = New System.Drawing.Point(370, 543)
+        Me.buttonDownload.Margin = New System.Windows.Forms.Padding(4)
         Me.buttonDownload.Name = "buttonDownload"
         Me.buttonDownload.Size = New System.Drawing.Size(407, 30)
         Me.buttonDownload.TabIndex = 3
@@ -90,26 +94,26 @@ Partial Class GUI
         Me.CheckFormatCustom.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckFormatCustom.ForeColor = System.Drawing.Color.White
         Me.CheckFormatCustom.Location = New System.Drawing.Point(11, 20)
-        Me.CheckFormatCustom.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CheckFormatCustom.Margin = New System.Windows.Forms.Padding(4)
         Me.CheckFormatCustom.Name = "CheckFormatCustom"
         Me.CheckFormatCustom.Size = New System.Drawing.Size(281, 24)
         Me.CheckFormatCustom.TabIndex = 6
         Me.CheckFormatCustom.Text = "Use custom quality; select below."
         Me.CheckFormatCustom.UseVisualStyleBackColor = True
         '
-        'textOutputLog
+        'TextOutputLog
         '
-        Me.textOutputLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.textOutputLog.ForeColor = System.Drawing.Color.DarkRed
-        Me.textOutputLog.Location = New System.Drawing.Point(7, 26)
-        Me.textOutputLog.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.textOutputLog.Multiline = True
-        Me.textOutputLog.Name = "textOutputLog"
-        Me.textOutputLog.ReadOnly = True
-        Me.textOutputLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.textOutputLog.Size = New System.Drawing.Size(635, 282)
-        Me.textOutputLog.TabIndex = 7
-        Me.textOutputLog.WordWrap = False
+        Me.TextOutputLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextOutputLog.ForeColor = System.Drawing.Color.DarkRed
+        Me.TextOutputLog.Location = New System.Drawing.Point(7, 59)
+        Me.TextOutputLog.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextOutputLog.Multiline = True
+        Me.TextOutputLog.Name = "TextOutputLog"
+        Me.TextOutputLog.ReadOnly = True
+        Me.TextOutputLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextOutputLog.Size = New System.Drawing.Size(636, 271)
+        Me.TextOutputLog.TabIndex = 7
+        Me.TextOutputLog.WordWrap = False
         '
         'listOptions
         '
@@ -118,7 +122,7 @@ Partial Class GUI
         Me.listOptions.FormattingEnabled = True
         Me.listOptions.Items.AddRange(New Object() {"Video and Audio", "Video Only", "Audio Only"})
         Me.listOptions.Location = New System.Drawing.Point(160, 286)
-        Me.listOptions.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.listOptions.Margin = New System.Windows.Forms.Padding(4)
         Me.listOptions.Name = "listOptions"
         Me.listOptions.Size = New System.Drawing.Size(201, 24)
         Me.listOptions.TabIndex = 8
@@ -133,9 +137,9 @@ Partial Class GUI
         Me.GroupQuality.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupQuality.ForeColor = System.Drawing.Color.White
         Me.GroupQuality.Location = New System.Drawing.Point(11, 315)
-        Me.GroupQuality.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupQuality.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupQuality.Name = "GroupQuality"
-        Me.GroupQuality.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupQuality.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupQuality.Size = New System.Drawing.Size(352, 128)
         Me.GroupQuality.TabIndex = 9
         Me.GroupQuality.TabStop = False
@@ -173,7 +177,7 @@ Partial Class GUI
         Me.listFormatAudio.ItemHeight = 20
         Me.listFormatAudio.Items.AddRange(New Object() {"160k", "128k", "117k", "70k", "50k"})
         Me.listFormatAudio.Location = New System.Drawing.Point(128, 89)
-        Me.listFormatAudio.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.listFormatAudio.Margin = New System.Windows.Forms.Padding(4)
         Me.listFormatAudio.Name = "listFormatAudio"
         Me.listFormatAudio.Size = New System.Drawing.Size(215, 28)
         Me.listFormatAudio.TabIndex = 11
@@ -186,7 +190,7 @@ Partial Class GUI
         Me.listFormatVideo.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.listFormatVideo.Items.AddRange(New Object() {"1080p", "720p", "480p", "360p", "240p", "144p"})
         Me.listFormatVideo.Location = New System.Drawing.Point(128, 49)
-        Me.listFormatVideo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.listFormatVideo.Margin = New System.Windows.Forms.Padding(4)
         Me.listFormatVideo.Name = "listFormatVideo"
         Me.listFormatVideo.Size = New System.Drawing.Size(212, 28)
         Me.listFormatVideo.TabIndex = 10
@@ -217,28 +221,29 @@ Partial Class GUI
         '
         Me.LabelDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LabelDownload.ForeColor = System.Drawing.Color.White
-        Me.LabelDownload.Location = New System.Drawing.Point(11, 20)
+        Me.LabelDownload.Location = New System.Drawing.Point(7, 23)
         Me.LabelDownload.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.LabelDownload.Name = "LabelDownload"
-        Me.LabelDownload.Size = New System.Drawing.Size(331, 20)
+        Me.LabelDownload.Size = New System.Drawing.Size(336, 31)
         Me.LabelDownload.TabIndex = 16
         Me.LabelDownload.Text = "Location to download to: "
+        Me.LabelDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'textBrowseFolder
+        'TextBrowseFolder
         '
-        Me.textBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
-        Me.textBrowseFolder.Location = New System.Drawing.Point(8, 39)
-        Me.textBrowseFolder.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.textBrowseFolder.Name = "textBrowseFolder"
-        Me.textBrowseFolder.Size = New System.Drawing.Size(335, 26)
-        Me.textBrowseFolder.TabIndex = 17
+        Me.TextBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
+        Me.TextBrowseFolder.Location = New System.Drawing.Point(8, 58)
+        Me.TextBrowseFolder.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBrowseFolder.Name = "TextBrowseFolder"
+        Me.TextBrowseFolder.Size = New System.Drawing.Size(336, 26)
+        Me.TextBrowseFolder.TabIndex = 17
         '
         'buttonBrowseFolder
         '
         Me.buttonBrowseFolder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buttonBrowseFolder.ForeColor = System.Drawing.Color.DarkRed
-        Me.buttonBrowseFolder.Location = New System.Drawing.Point(8, 74)
-        Me.buttonBrowseFolder.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonBrowseFolder.Location = New System.Drawing.Point(8, 92)
+        Me.buttonBrowseFolder.Margin = New System.Windows.Forms.Padding(4)
         Me.buttonBrowseFolder.Name = "buttonBrowseFolder"
         Me.buttonBrowseFolder.Size = New System.Drawing.Size(336, 30)
         Me.buttonBrowseFolder.TabIndex = 18
@@ -249,8 +254,8 @@ Partial Class GUI
         '
         Me.buttonUpdateYDL.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buttonUpdateYDL.ForeColor = System.Drawing.Color.DarkRed
-        Me.buttonUpdateYDL.Location = New System.Drawing.Point(785, 519)
-        Me.buttonUpdateYDL.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonUpdateYDL.Location = New System.Drawing.Point(785, 543)
+        Me.buttonUpdateYDL.Margin = New System.Windows.Forms.Padding(4)
         Me.buttonUpdateYDL.Name = "buttonUpdateYDL"
         Me.buttonUpdateYDL.Size = New System.Drawing.Size(239, 30)
         Me.buttonUpdateYDL.TabIndex = 19
@@ -259,14 +264,15 @@ Partial Class GUI
         '
         'GroupLogOutput
         '
-        Me.GroupLogOutput.Controls.Add(Me.textOutputLog)
+        Me.GroupLogOutput.Controls.Add(Me.TextOutputCurrent)
+        Me.GroupLogOutput.Controls.Add(Me.TextOutputLog)
         Me.GroupLogOutput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupLogOutput.ForeColor = System.Drawing.Color.White
         Me.GroupLogOutput.Location = New System.Drawing.Point(373, 197)
-        Me.GroupLogOutput.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupLogOutput.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupLogOutput.Name = "GroupLogOutput"
-        Me.GroupLogOutput.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.GroupLogOutput.Size = New System.Drawing.Size(651, 315)
+        Me.GroupLogOutput.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupLogOutput.Size = New System.Drawing.Size(651, 338)
         Me.GroupLogOutput.TabIndex = 14
         Me.GroupLogOutput.TabStop = False
         Me.GroupLogOutput.Text = "Output"
@@ -275,8 +281,8 @@ Partial Class GUI
         '
         Me.buttonSaveLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buttonSaveLog.ForeColor = System.Drawing.Color.DarkRed
-        Me.buttonSaveLog.Location = New System.Drawing.Point(785, 558)
-        Me.buttonSaveLog.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonSaveLog.Location = New System.Drawing.Point(785, 581)
+        Me.buttonSaveLog.Margin = New System.Windows.Forms.Padding(4)
         Me.buttonSaveLog.Name = "buttonSaveLog"
         Me.buttonSaveLog.Size = New System.Drawing.Size(239, 30)
         Me.buttonSaveLog.TabIndex = 20
@@ -287,15 +293,15 @@ Partial Class GUI
         '
         Me.GroupDownload.Controls.Add(Me.buttonOpenFolder)
         Me.GroupDownload.Controls.Add(Me.LabelDownload)
-        Me.GroupDownload.Controls.Add(Me.textBrowseFolder)
+        Me.GroupDownload.Controls.Add(Me.TextBrowseFolder)
         Me.GroupDownload.Controls.Add(Me.buttonBrowseFolder)
         Me.GroupDownload.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupDownload.ForeColor = System.Drawing.Color.White
         Me.GroupDownload.Location = New System.Drawing.Point(11, 443)
-        Me.GroupDownload.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupDownload.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupDownload.Name = "GroupDownload"
-        Me.GroupDownload.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.GroupDownload.Size = New System.Drawing.Size(352, 148)
+        Me.GroupDownload.Padding = New System.Windows.Forms.Padding(4)
+        Me.GroupDownload.Size = New System.Drawing.Size(352, 168)
         Me.GroupDownload.TabIndex = 21
         Me.GroupDownload.TabStop = False
         Me.GroupDownload.Text = "Download Location"
@@ -304,8 +310,8 @@ Partial Class GUI
         '
         Me.buttonOpenFolder.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buttonOpenFolder.ForeColor = System.Drawing.Color.DarkRed
-        Me.buttonOpenFolder.Location = New System.Drawing.Point(8, 111)
-        Me.buttonOpenFolder.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonOpenFolder.Location = New System.Drawing.Point(8, 130)
+        Me.buttonOpenFolder.Margin = New System.Windows.Forms.Padding(4)
         Me.buttonOpenFolder.Name = "buttonOpenFolder"
         Me.buttonOpenFolder.Size = New System.Drawing.Size(336, 30)
         Me.buttonOpenFolder.TabIndex = 19
@@ -322,9 +328,9 @@ Partial Class GUI
         Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox4.ForeColor = System.Drawing.Color.White
         Me.GroupBox4.Location = New System.Drawing.Point(11, 49)
-        Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox4.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox4.Size = New System.Drawing.Size(632, 128)
         Me.GroupBox4.TabIndex = 14
         Me.GroupBox4.TabStop = False
@@ -334,7 +340,7 @@ Partial Class GUI
         '
         Me.textPassword.ForeColor = System.Drawing.Color.DarkRed
         Me.textPassword.Location = New System.Drawing.Point(107, 89)
-        Me.textPassword.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.textPassword.Margin = New System.Windows.Forms.Padding(4)
         Me.textPassword.Name = "textPassword"
         Me.textPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(8226)
         Me.textPassword.Size = New System.Drawing.Size(516, 26)
@@ -344,7 +350,7 @@ Partial Class GUI
         '
         Me.textUsername.ForeColor = System.Drawing.Color.DarkRed
         Me.textUsername.Location = New System.Drawing.Point(107, 49)
-        Me.textUsername.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.textUsername.Margin = New System.Windows.Forms.Padding(4)
         Me.textUsername.Name = "textUsername"
         Me.textUsername.Size = New System.Drawing.Size(516, 26)
         Me.textUsername.TabIndex = 19
@@ -379,7 +385,7 @@ Partial Class GUI
         Me.CheckRequiresLogin.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckRequiresLogin.ForeColor = System.Drawing.Color.White
         Me.CheckRequiresLogin.Location = New System.Drawing.Point(11, 20)
-        Me.CheckRequiresLogin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CheckRequiresLogin.Margin = New System.Windows.Forms.Padding(4)
         Me.CheckRequiresLogin.Name = "CheckRequiresLogin"
         Me.CheckRequiresLogin.Size = New System.Drawing.Size(259, 24)
         Me.CheckRequiresLogin.TabIndex = 6
@@ -405,9 +411,9 @@ Partial Class GUI
         Me.GroupCredential.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupCredential.ForeColor = System.Drawing.Color.White
         Me.GroupCredential.Location = New System.Drawing.Point(373, 10)
-        Me.GroupCredential.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupCredential.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupCredential.Name = "GroupCredential"
-        Me.GroupCredential.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupCredential.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupCredential.Size = New System.Drawing.Size(651, 187)
         Me.GroupCredential.TabIndex = 21
         Me.GroupCredential.TabStop = False
@@ -419,7 +425,7 @@ Partial Class GUI
         Me.checkUseFMP.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.checkUseFMP.ForeColor = System.Drawing.Color.White
         Me.checkUseFMP.Location = New System.Drawing.Point(11, 20)
-        Me.checkUseFMP.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.checkUseFMP.Margin = New System.Windows.Forms.Padding(4)
         Me.checkUseFMP.Name = "checkUseFMP"
         Me.checkUseFMP.Size = New System.Drawing.Size(127, 24)
         Me.checkUseFMP.TabIndex = 6
@@ -430,20 +436,28 @@ Partial Class GUI
         '
         Me.buttonClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.buttonClear.ForeColor = System.Drawing.Color.DarkRed
-        Me.buttonClear.Location = New System.Drawing.Point(371, 558)
-        Me.buttonClear.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.buttonClear.Location = New System.Drawing.Point(370, 581)
+        Me.buttonClear.Margin = New System.Windows.Forms.Padding(4)
         Me.buttonClear.Name = "buttonClear"
         Me.buttonClear.Size = New System.Drawing.Size(407, 30)
         Me.buttonClear.TabIndex = 23
         Me.buttonClear.Text = "Clear Log"
         Me.buttonClear.UseVisualStyleBackColor = True
         '
+        'TextOutputCurrent
+        '
+        Me.TextOutputCurrent.Location = New System.Drawing.Point(7, 26)
+        Me.TextOutputCurrent.Name = "TextOutputCurrent"
+        Me.TextOutputCurrent.ReadOnly = True
+        Me.TextOutputCurrent.Size = New System.Drawing.Size(636, 26)
+        Me.TextOutputCurrent.TabIndex = 8
+        '
         'GUI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Maroon
-        Me.ClientSize = New System.Drawing.Size(1040, 602)
+        Me.ClientSize = New System.Drawing.Size(1040, 624)
         Me.Controls.Add(Me.buttonClear)
         Me.Controls.Add(Me.GroupCredential)
         Me.Controls.Add(Me.LabelTitle)
@@ -480,7 +494,7 @@ Partial Class GUI
     Friend WithEvents TextURL As TextBox
     Friend WithEvents buttonDownload As Button
     Friend WithEvents CheckFormatCustom As CheckBox
-    Friend WithEvents textOutputLog As TextBox
+    Friend WithEvents TextOutputLog As TextBox
     Friend WithEvents listOptions As ComboBox
     Friend WithEvents GroupQuality As GroupBox
     Friend WithEvents LabelQualityAudio As Label
@@ -490,7 +504,7 @@ Partial Class GUI
     Friend WithEvents LabelTypeDownload As Label
     Friend WithEvents LabelURL As Label
     Friend WithEvents LabelDownload As Label
-    Friend WithEvents textBrowseFolder As TextBox
+    Friend WithEvents TextBrowseFolder As TextBox
     Friend WithEvents buttonBrowseFolder As Button
     Friend WithEvents buttonUpdateYDL As Button
     Friend WithEvents GroupLogOutput As GroupBox
@@ -507,4 +521,7 @@ Partial Class GUI
     Friend WithEvents GroupCredential As GroupBox
     Friend WithEvents checkUseFMP As CheckBox
     Friend WithEvents buttonClear As Button
+    Friend WithEvents Timer As Timer
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents TextOutputCurrent As TextBox
 End Class

@@ -25,12 +25,12 @@ Public Class GUI
         listFormatVideo.SelectedItem = "720p"
         listFormatAudio.SelectedItem = "128k"
         dirFolderDownload = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)
-        textBrowseFolder.Text = dirFolderDownload
+        TextBrowseFolder.Text = dirFolderDownload
     End Sub
     Private Sub buttonDownload_Click(sender As Object, e As EventArgs) Handles buttonDownload.Click
         Select Case TextURL.Text
             Case ""
-                textOutputLog.Text = "URL empty, please enter URL."
+                TextOutputLog.Text = "URL empty, please enter URL."
             Case Else
                 Select Case CheckRequiresLogin.Checked
                     Case False
@@ -45,16 +45,16 @@ Public Class GUI
                             'BackgroundRun.RunWorkerAsync()
                             setDownload()
                         Else
-                            textOutputLog.Text = "Username/Password fields blank, please enter."
+                            TextOutputLog.Text = "Username/Password fields blank, please enter."
                         End If
                 End Select
         End Select
     End Sub
     Private Sub setDownload()
-        textOutputLog.AppendText("Download started" & vbNewLine)
-        textOutputLog.AppendText("Download location set to " & dirFolderDownload & vbNewLine)
+        TextOutputLog.AppendText("Download started" & vbNewLine)
+        TextOutputLog.AppendText("Download location set to " & dirFolderDownload & vbNewLine)
         If CheckRequiresLogin.Checked = True And textUsername.Text <> "" And textPassword.Text <> "" Then
-            textOutputLog.AppendText("Using credentials of username " & textUsername.Text & vbNewLine & vbNewLine)
+            TextOutputLog.AppendText("Using credentials of username " & textUsername.Text & vbNewLine & vbNewLine)
         End If
         If checkUseFMP.Checked = True Then
             useFFMpeg = True
@@ -62,7 +62,7 @@ Public Class GUI
             useFFMpeg = False
         End If
         If checkStoredLocationFiles() = False Then
-            textOutputLog.AppendText("ERROR: YouTube-DL/FFMpeg not present in specified location" & vbNewLine & "------------------" & vbNewLine)
+            TextOutputLog.AppendText("ERROR: YouTube-DL/FFMpeg not present in specified location" & vbNewLine & "------------------" & vbNewLine)
         Else
             setCompiler()
             checkDownloadType()
@@ -77,12 +77,12 @@ Public Class GUI
         downloadBrowser.ShowDialog()
         dirFolderDownload = downloadBrowser.SelectedPath
         If (dirFolderDownload = "") Or (dirFolderDownload = " ") Then
-            textOutputLog.AppendText("Please enter valid directory!" & vbNewLine)
+            TextOutputLog.AppendText("Please enter valid directory!" & vbNewLine)
             dirFolderDownload = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)
         Else
-            textOutputLog.AppendText("Download path selected to " & dirFolderDownload & vbNewLine & "------------------" & vbNewLine)
+            TextOutputLog.AppendText("Download path selected to " & dirFolderDownload & vbNewLine & "------------------" & vbNewLine)
         End If
-        textBrowseFolder.Text = dirFolderDownload
+        TextBrowseFolder.Text = dirFolderDownload
     End Sub
     Private Sub checkCustomFormatBox()
         Select Case CheckFormatCustom.Checked
@@ -218,14 +218,14 @@ Public Class GUI
     End Sub
     Private Sub selectEachLineURL(ByVal downloadTypeChoice As Integer, ByVal qualityVideo As String, ByVal qualityAudio As String)
         For Each urlText In TextURL.Lines
-            textOutputLog.AppendText(vbNewLine & "Downloading URL " & urlText & vbNewLine)
+            TextOutputLog.AppendText(vbNewLine & "Downloading URL " & urlText & vbNewLine)
             checkURL(downloadTypeChoice, qualityVideo, qualityAudio)
         Next
-        textOutputLog.AppendText(vbNewLine & "Download complete" & vbNewLine & "------------------" & vbNewLine)
+        TextOutputLog.AppendText(vbNewLine & "Download complete" & vbNewLine & "------------------" & vbNewLine)
     End Sub
 
     Private Sub checkURL(ByVal downloadTypeChoice As Integer, ByVal qualityVideo As String, ByVal qualityAudio As String)
-        Dim constArgument As String = "-ciw --embed-sub --convert-subtitles srt --all-subs --recode-video mp4 --no-part --prefer-ffmpeg " & username & password 'Constant for all downloaded options.
+        Dim constArgument As String = "-ciw --embed-sub --convert-subtitles srt --all-subs --merge-output-format mp4 --no-post-overwrites --no-part --prefer-ffmpeg " & username & password 'Constant for all downloaded options.
         Dim qualityString, isPlaylistString, directoryDownloadString As String
         If useFFMpeg = True Then
             constArgument = constArgument & " --ffmpeg-location " & Quote & dirBinFMPG & Quote
@@ -238,7 +238,6 @@ Public Class GUI
                 isPlaylistString = " --no-playlist"
                 directoryDownloadString = " -o " & Quote & dirFolderDownload & "\%(title)s.%(ext)s" & Quote
         End Select
-
         Select Case downloadTypeChoice
             Case 1
                 qualityString = " -f " & qualityVideo & "+" & qualityAudio & " -vcodec libx264 --audio-format m4a "
@@ -247,30 +246,27 @@ Public Class GUI
             Case 3
                 qualityString = " -f " & qualityAudio & " --embed-thumbnail --audio-format mp3 -x "
         End Select
-        dirFolderDownload = textBrowseFolder.Text
+        dirFolderDownload = TextBrowseFolder.Text
         ProcessInfo.Arguments = constArgument & qualityString & isPlaylistString & directoryDownloadString & " " & urlText
-        MsgBox(ProcessInfo.Arguments)
         runDownloadUpdate()
     End Sub
     Private Sub buttonOpenFolder_Click(sender As Object, e As EventArgs) Handles buttonOpenFolder.Click
-        Process.Start("explorer.exe", textBrowseFolder.Text)
+        Process.Start("explorer.exe", TextBrowseFolder.Text)
     End Sub
 
     Private Sub buttonClear_Click(sender As Object, e As EventArgs) Handles buttonClear.Click
-        textOutputLog.Clear()
+        TextOutputLog.Clear()
     End Sub
 
-    Private Sub runDownloadUpdate() ' Handles BackgroundWorker1.DoWork 'ByRef downCompiler As Object)
-        'textOutput.Text = "Download started" & vbNewLine & vbNewLine
+    Private Sub runDownloadUpdate()
         downCompiler.StartInfo = ProcessInfo
         downCompiler.Start()
-        'BackgroundRun.ReportProgress(10)
-        Do
-            'Dim outputStream As String
-            'textOutput.AppendText(downCompiler.StandardOutput.ReadLine & vbNewLine)
-            textOutputLog.AppendText(downCompiler.StandardOutput.ReadLine & vbNewLine)
-        Loop Until downCompiler.HasExited = True
-        textOutputLog.AppendText(downCompiler.StandardError.ReadToEnd)
+        Do Until downCompiler.HasExited = True
+            TextOutputCurrent.Text = downCompiler.StandardOutput.ReadLine
+            TextOutputLog.AppendText(downCompiler.StandardOutput.ReadLine & vbNewLine)
+            Threading.Thread.Sleep(100)
+        Loop
+        TextOutputLog.AppendText(downCompiler.StandardError.ReadToEnd)
     End Sub
 
     Private Sub buttonUpdateYDL_Click(sender As Object, e As EventArgs) Handles buttonUpdateYDL.Click
@@ -285,9 +281,9 @@ Public Class GUI
         End If
         Dim logDirectory As String = "log/log" & DateTime.Now.ToString("yyMMdd") & "_" & DateTime.Now.ToString("HHmmss") & ".txt"
         Dim logWriter As New StreamWriter(logDirectory)
-        logWriter.Write(textOutputLog.Text)
+        logWriter.Write(TextOutputLog.Text)
         logWriter.Close()
-        textOutputLog.AppendText("Log saved" & vbNewLine & "------------------" & vbNewLine)
+        TextOutputLog.AppendText("Log saved" & vbNewLine & "------------------" & vbNewLine)
     End Sub
 #End Region
 End Class
